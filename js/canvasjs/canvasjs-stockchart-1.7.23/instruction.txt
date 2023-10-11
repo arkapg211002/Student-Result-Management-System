@@ -1,0 +1,8 @@
+﻿For JavaScript Standalone Version - use canvasjs.stock.min.js **ONLY**
+For jQuery Version - use jquery.canvasjs.stock.min.js **ONLY**
+
+In React
+    Save canvasjs.stock.min.js **AND** canvasjs.stock.react.js within source-folder of your React application ( src or src/assets or src/lib )
+
+In Angular
+    Save canvasjs.stock.min.js, canvasjs.angular.component.ts, canvasjs.stock.angular.component.ts within source-folder of your Angular application ( src or src/assets or src/lib )

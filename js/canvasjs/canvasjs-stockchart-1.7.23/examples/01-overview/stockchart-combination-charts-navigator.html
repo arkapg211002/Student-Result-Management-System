@@ -1,0 +1,86 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../canvasjs.stock.min.js"></script>
+<script type="text/javascript">
+window.onload = function () {
+  var dataPoints1 = [], dataPoints2 = [];
+  var stockChart = new CanvasJS.StockChart("stockChartContainer", {
+    animationEnabled: true,
+    theme: "dark1",
+    title:{
+      text:"Combination Charts with Shared Tooltip",
+      fontFamily: "Calibri,Optima,Arial,sans-serif"
+    },
+    subtitles: [{
+      text: "Annual Temperature in India (1901-2017)",
+      fontFamily: "Calibri,Optima,Arial,sans-serif"
+    }],
+    charts: [{
+      toolTip: {
+        shared: true
+      },
+      axisY: {
+        suffix: "°C"
+      },
+      data: [{
+        name: "Min-Max",
+        type: "rangeArea",
+        xValueFormatString: "YYYY",
+        yValueFormatString: "#,###.##°C",
+        dataPoints : dataPoints1
+      },{
+        name: "Average",
+        type: "line",
+        yValueFormatString: "#,###.##°C",
+        dataPoints: dataPoints2
+      }]
+    }],
+    navigator: {
+      data: [{
+        dataPoints: dataPoints2
+      }],
+      axisX: {
+        labelFontColor: "white",
+        labelFontWeight: "bolder"
+      },
+      slider: {
+        minimum: new Date(1950, 00),
+        maximum: new Date(1980, 00)
+      }
+    },
+    rangeSelector: {
+      buttons: [{
+        label: "10Y",
+        range: 10,
+        rangeType: "year"
+      },{
+        label: "20Y",
+        range: 20,
+        rangeType: "year"
+      },{
+        label: "50Y",
+        range: 50,
+        rangeType: "year"
+      },{
+        label: "All",
+        range: null,
+        rangeType: "all"
+      }]
+    }
+  });
+  $.getJSON("https://canvasjs.com/data/gallery/stock-chart/weather-india.json", function(data) {
+    for(var i = 0; i < data.length; i++){
+      dataPoints1.push({x: new Date(data[i].year, 00, 00), y: [Number(data[i].min), Number(data[i].max)]});
+      dataPoints2.push({x: new Date(data[i].year, 00, 00), y: Number(data[i].avg)});
+    }
+    stockChart.render();
+  });
+}
+</script>
+</head>
+<body>
+<div id="stockChartContainer" style="height: 400px; max-width: 920px; margin: 0px auto;"></div>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../canvasjs.stock.min.js"></script>
+<script type="text/javascript">
+window.onload = function () {
+  var dataPoints = [];
+  var stockChart = new CanvasJS.StockChart("stockChartContainer", {
+    exportEnabled: true,
+    title: {
+      text:"StockChart with Line using JSON Data"
+    },
+    subtitles: [{
+      text:"Total Retail Sales of ACME "
+    }],
+    charts: [{
+      axisX: {
+        crosshair: {
+          enabled: true,
+          snapToDataPoint: true,
+          valueFormatString: "MMM YYYY"
+        }
+      },
+      axisY: {
+        title: "Million of Dollars",
+        prefix: "$",
+        suffix: "M",
+        crosshair: {
+          enabled: true,
+          snapToDataPoint: true,
+          valueFormatString: "$#,###.00M",
+        }
+      },
+      data: [{
+        type: "line",
+        xValueFormatString: "MMM YYYY",
+        yValueFormatString: "$#,###.##M",
+        dataPoints : dataPoints
+      }]
+    }],
+    navigator: {
+      slider: {
+        minimum: new Date(2010, 00, 01),
+        maximum: new Date(2018, 00, 01)
+      }
+    }
+  });
+  $.getJSON("https://canvasjs.com/data/gallery/stock-chart/grocery-sales.json", function(data) {
+    for(var i = 0; i < data.length; i++){
+      dataPoints.push({x: new Date(data[i].date), y: Number(data[i].sale)});
+    }
+    stockChart.render();
+  });
+}
+</script>
+</head>
+<body>
+<div id="stockChartContainer" style="height: 400px; max-width: 920px; margin: 0px auto;"></div>
+</body>
+</html>

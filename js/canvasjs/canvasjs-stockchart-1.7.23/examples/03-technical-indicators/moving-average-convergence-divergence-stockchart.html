@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../canvasjs.stock.min.js"></script>
+<script type="text/javascript">
+window.onload = function () {
+  var dps1 = [], dps2= [];
+  var stockChart = new CanvasJS.StockChart("chartContainer",{
+    theme: "light2",
+    title:{
+      text:"Technical Indicators: MACD"
+    },
+    subtitles: [{
+      text: "Moving Average Convergence Divergence"
+    }],
+    charts: [{
+      legend: {
+        verticalAlign: "top",
+        horizontalAlign: "left"
+      },
+      axisX: {
+        tickLength: 0,
+        lineThickness: 5,
+        labelFormatter: function(e) {
+          return "";
+        }
+      },
+      axisY: {
+        prefix: "$"
+      },
+      data: [{
+        type: "candlestick",
+        name: "Stock Price",
+        yValueFormatString: "$#,###.##",
+        dataPoints : dps1
+      }],
+    }],
+    navigator: {
+       data: [{
+         dataPoints: dps2
+       }],
+      slider: {
+        minimum: new Date(2018, 03, 01),
+        maximum: new Date(2018, 05, 01)
+      }
+    }
+  });
+  $.getJSON("https://canvasjs.com/data/docs/ethusd2018.json", function(data) {
+    for(var i = 0; i < data.length; i++){
+      dps1.push({x: new Date(data[i].date), y: [Number(data[i].open), Number(data[i].high), Number(data[i].low), Number(data[i].close)]});
+      dps2.push({x: new Date(data[i].date), y: Number(data[i].close)});
+    }
+    stockChart.render();
+    var ema12 = calculateEMA(dps1, 12),
+        ema26 = calculateEMA(dps1, 26),
+        macd = [], ema9;
+    for(var i = 0; i < ema12.length; i++) {
+      macd.push({x: ema12[i].x, y: (ema12[i].y - ema26[i].y)});
+    }
+    var ema9 = calculateEMA(macd, 9);
+    stockChart.addTo("charts", {height: 100, data: [{type: "line", name: "MACD", showInLegend: true, dataPoints: macd}], legend: {horizontalAlign: "left"}, toolTip: {shared: true}});
+    stockChart.charts[1].addTo("data", {type: "line", name: "Signal", showInLegend: true, dataPoints: ema9});
+  });
+  function calculateEMA(dps,mRange) {
+    var k = 2/(mRange + 1);
+    emaDps = [{x: dps[0].x, y: dps[0].y.length ? dps[0].y[3] : dps[0].y}];
+    for (var i = 1; i < dps.length; i++) {
+      emaDps.push({x: dps[i].x, y: (dps[i].y.length ? dps[i].y[3] : dps[i].y) * k + emaDps[i - 1].y * (1 - k)});
+    }
+    return emaDps;
+  }
+}
+</script>
+</head>
+<body>
+<div id="chartContainer" style="height: 400px; max-width: 920px; margin: 0px auto;"></div>
+</body>
+</html>

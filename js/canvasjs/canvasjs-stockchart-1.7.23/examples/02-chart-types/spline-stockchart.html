@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="../../canvasjs.stock.min.js"></script>
+<script type="text/javascript">
+window.onload = function () {
+  var dataPoints = [];
+  var stockChart = new CanvasJS.StockChart("stockChartContainer",{
+    theme: "light2", //"light1", "dark1", "dark2"
+    title:{
+      text:"Ethereum Closing Price"
+    },
+    charts: [{
+      axisX: {
+        crosshair: {
+          enabled: true,
+          snapToDataPoint: true
+        }
+      },
+      axisY: {
+        prefix: "$",
+        crosshair: {
+          enabled: true,
+          snapToDataPoint: true,
+          valueFormatString: "$#,###.##"
+        }
+      },
+      toolTip: {
+        shared: true
+      },
+      data: [{
+        type: "spline",
+        name: "Price",
+        yValueFormatString: "$#,###.##",
+        dataPoints : dataPoints
+      }]
+    }],
+    navigator: {
+      slider: {
+        minimum: new Date(2018, 08, 01),
+        maximum: new Date(2018, 10, 01)
+      }
+    }
+  });
+  $.getJSON("https://canvasjs.com/data/docs/ethusd2018.json", function(data) {
+    for(var i = 0; i < data.length; i++){
+      dataPoints.push({x: new Date(data[i].date), y: Number(data[i].close)});
+    }
+    stockChart.render();
+  });
+}
+</script>
+</head>
+<body>
+<div id="stockChartContainer" style="height: 400px; max-width: 920px; margin: 0px auto;"></div>
+</body>
+</html>
