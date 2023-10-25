@@ -16,7 +16,7 @@
 4. Download the [srms database](https://github.com/arkapg211002/Student-Result-Management-System/tree/main/srms%20database)
 5. Using `XAMPP` open `phpMyAdmin`
 6. Create a database named `srms`
-7. Extract the downloaded database file
+7. Import the SQL file in the extracted project folder
 8. In a new tab open `http://localhost/srms/`
 
 Admin Login :
