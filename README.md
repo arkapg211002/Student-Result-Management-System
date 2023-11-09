@@ -31,7 +31,7 @@ Result Generation sample
 Roll Number; 13000121058
 Classname: Third Year Section-A
 
-[Other Files](https://github.com/arkapg211002/SEM-5-CSE/tree/main/Software%20Engineering%20Lab%20(ESC591)/Project)
+[Other SE Lab related files for the Prototype](https://github.com/arkapg211002/SEM-5-CSE/tree/main/Software%20Engineering%20Lab%20(ESC591)/project%20files)
 
 
 
