@@ -10,7 +10,7 @@
 
 <h2>Steps to run the project</h2>
 
-1. Download the [Zip File](https://github.com/arkapg211002/Student-Result-Management-System/blob/main/Student%20Result%20Management%20System.zip)  
+1. Download the [Zip File](https://github.com/arkapg211002/Student-Result-Management-System/blob/main/SRMS.zip)  
 2. Extract the zip file
 3. Go inside the `SE Project` folder copy the `srms` folder and paste it under `htdocs` folder of `xampp` folder of your system
 4. Download the [srms database](https://github.com/arkapg211002/Student-Result-Management-System/tree/main/srms%20database)
